@@ -1,5 +1,4 @@
-#ifndef COMPUTERPLAYER_H
-#define COMPUTERPLAYER_H
+#pragma once
 
 #include "neuralnetwork.h"
 #include "car.h"
@@ -11,10 +10,9 @@ public:
     ComputerPlayer(){}
     ComputerPlayer(Car *car);
     void makeStep();
-private:
+
     NeuralNetwork ai;
+private:
     Car *car;
     CarParameters prevInfo;
 };
-
-#endif // COMPUTERPLAYER_H

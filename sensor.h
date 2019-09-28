@@ -1,5 +1,4 @@
-#ifndef SENSOR_H
-#define SENSOR_H
+#pragma once
 
 #include <QGraphicsLineItem>
 #include "map.h"
@@ -21,5 +20,3 @@ private:
 
     Map *map;
 };
-
-#endif // SENSOR_H

@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QGraphicsScene>
@@ -22,5 +21,3 @@ private:
     Ui::MainWindow *ui;
     Map *map;
 };
-
-#endif // MAINWINDOW_H

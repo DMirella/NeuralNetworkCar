@@ -1,12 +1,11 @@
-#ifndef MAP_H
-#define MAP_H
+#pragma once
 
 #include <QPixmap>
 #include <QGraphicsScene>
 #include <QRgb>
 #include <QTimer>
+#include <QVector>
 
-#include "car.h"
 #include "gamejudge.h"
 
 class Car;
@@ -16,13 +15,11 @@ class Map : public QGraphicsScene
 public:
     Map(QString path);
     ~Map();
-    void wallCollision();
+    void wallCollision(Car *car);
     QRgb pixel(QPointF pt) const;
 private:
-    Car *car;
+    QVector<Car*> cars;
     QPixmap *map;
     GameJudge *gameJudge;
     QTimer *animationTimer;
 };
-
-#endif // MAP_H

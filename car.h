@@ -1,12 +1,10 @@
-#ifndef CAR_H
-#define CAR_H
+#pragma once
 
 #include <QGraphicsItemGroup>
 #include <QGraphicsRectItem>
 
 #include "sensor.h"
 #include "map.h"
-#include "computerplayer.h"
 
 struct CarParameters
 {
@@ -29,6 +27,9 @@ public:
     void accelerate();
     void brake();
 
+    int getDistanceCountPerLife() const { return distanceCountPerLife; }
+
+    ComputerPlayer *player;
 private:
     void updateDangerSensor(Sensor *);
 
@@ -39,7 +40,10 @@ private:
 
     QGraphicsRectItem *carcassRect, *windowRect;
     Map *map;
-    ComputerPlayer *player;
+
+    int distanceCountPerLife;
+    bool isCarCrushed;
+
     // QGraphicsItem interface
 public:
     void advance(int phase);
@@ -49,4 +53,3 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 };
 
-#endif // CAR_H

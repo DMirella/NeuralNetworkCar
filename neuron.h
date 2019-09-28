@@ -1,6 +1,4 @@
-#ifndef NEURON_H
-#define NEURON_H
-
+#pragma once
 #include <QVector>
 
 class Neuron
@@ -11,9 +9,9 @@ public:
     double adder(QVector<double> inputs);
     double activationFunction(double sum, bool inverse = false);
     double output(QVector<double> inputs);
+
+    Neuron merge(const Neuron& other);
 private:
     QVector<double> weights;
     int countPrevNeurons;
 };
-
-#endif // NEURON_H

@@ -1,19 +1,23 @@
 #include "map.h"
 #include <QDebug>
 
+#define GENERATION_COUNT 50
+
 Map::Map(QString path)
     : QGraphicsScene()
 {
-    car = new Car(this, 0, 0);
     map = new QPixmap(path);
     addPixmap(*map);
-    addItem(car);
+    for (int i = 0; i < GENERATION_COUNT; i++) {
+        cars.push_back(new Car(this, 10, 10));
+        addItem(cars[i]);
+    }
 
     animationTimer = new QTimer(this);
     connect(animationTimer, SIGNAL(timeout()), this, SLOT(advance()));
     animationTimer->start(1000/60);
 
-    gameJudge = new GameJudge(car);
+    gameJudge = new GameJudge(cars);
 
     QGraphicsRectItem *r =  new QGraphicsRectItem;
     r->setRect(0, 0, width(), height());
@@ -25,9 +29,9 @@ Map::~Map()
     delete gameJudge;
 }
 
-void Map::wallCollision()
+void Map::wallCollision(Car* car)
 {
-    gameJudge->onWallCollision();
+    gameJudge->onWallCollision(car);
 }
 
 QRgb Map::pixel(QPointF pt) const

@@ -40,3 +40,12 @@ Action NeuralNetwork::think(double leftDist, double rightDist, double accelerate
 
     return Action(ind);
 }
+
+NeuralNetwork NeuralNetwork::merge(const NeuralNetwork& other) {
+    NeuralNetwork res = *this;
+    for (int i = 0; i < hidden.size(); i++) {
+      res.hidden[i] = res.hidden[i].merge(other.hidden[i]);
+    }
+    res.output = res.output.merge(other.output);
+    return res;
+}

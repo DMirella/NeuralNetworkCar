@@ -1,7 +1,7 @@
-#ifndef GAMEJUDGE_H
-#define GAMEJUDGE_H
+#pragma once
 
 #include <QObject>
+#include <QVector>
 
 #include "car.h"
 #include "neuralnetwork.h"
@@ -11,10 +11,10 @@ class Car;
 class GameJudge
 {
 public:
-    GameJudge(Car *car);
-    void onWallCollision();
+    GameJudge(const QVector<Car*>& cars);
+    void onWallCollision(Car* car);
 private:
-    Car *car;
+    QVector<Car*> cars;
+    int countDeadOfGeneration;
 };
 
-#endif // GAMEJUDGE_H

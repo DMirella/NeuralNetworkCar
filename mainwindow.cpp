@@ -6,6 +6,8 @@
 #include "car.h"
 #include "map.h"
 
+#define MAP_PATH "C:/Users/Dima/Desktop/proj/NeuralNetworkCar/maps/6.jpg"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -16,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     w->setLayout(ui->mainLay);
     setCentralWidget(w);
 
-    map = new Map("C:/Users/Dima/Documents/qt/NeuralNetworkCar/maps/6.jpg");
+    map = new Map(MAP_PATH);
     ui->graphicsView->setScene(map);
 }
 

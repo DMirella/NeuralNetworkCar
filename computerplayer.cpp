@@ -2,8 +2,8 @@
 
 #define COUNT_HIDDEN_LAYERS 1
 #define COUNT_INPUT         3
-#define COUNT_OUTPUT        4
-#define COUNT_HIDDEN        5
+#define COUNT_OUTPUT        2
+#define COUNT_HIDDEN        2
 
 ComputerPlayer::ComputerPlayer(Car *car)
 {

@@ -6,11 +6,13 @@
 #include <cmath>
 #include <algorithm>
 
+#include "computerplayer.h"
+
 #define CAR_WIDTH   22
 #define CAR_HEIGHT  40
 
 #define ROTAION_CAR_SPEED 5
-#define CAR_ACCELERATION  (5.0/60.0)
+#define CAR_ACCELERATION  (5./60.)
 #define MAX_CAR_TOTAL_SPEED 5.
 #define SENSOR_LENGTH     100
 #define SENSOR_ANGLE      110.
@@ -26,7 +28,8 @@ float toRadians(float angle){
 Car::Car(Map *map, float x, float y)
     : QGraphicsItemGroup(),
       xSpeed(0), ySpeed(0), rotationSpeed(0),
-      acceleration(0), angle(90), startX(x), startY(y)
+      acceleration(0), angle(90), startX(x), startY(y), distanceCountPerLife(0),
+      isCarCrushed(false)
 {
     this->x = x;
     this->y = y;
@@ -60,7 +63,7 @@ Car::Car(Map *map, float x, float y)
     setFocus();
 
     qDebug() << this->x << " " << this->y;
-    setTransformOriginPoint(CAR_WIDTH / 2, CAR_HEIGHT / 2);
+    setTransformOriginPoint(this->x + CAR_WIDTH / 2, this->y + CAR_HEIGHT / 2);
 }
 
 void Car::putOnStart()
@@ -72,6 +75,9 @@ void Car::putOnStart()
     angle = 90;
     x = startX;
     y = startY;
+    distanceCountPerLife = 0;
+    isCarCrushed = false;
+    acceleration = CAR_ACCELERATION;
     setPos(x, y);
 }
 
@@ -101,26 +107,29 @@ void Car::accelerate()
 
 void Car::brake()
 {
-    acceleration = -CAR_ACCELERATION;
+  acceleration = CAR_ACCELERATION;
+    //acceleration = -CAR_ACCELERATION;
 }
 
 void Car::advance(int phase)
 {
-    if(phase){
+    if(phase && !isCarCrushed) {
         moveBy(xSpeed, ySpeed);
         setRotation(angle - 90);
-    }
-    else{
+    } else if (!isCarCrushed) {
         player->makeStep();
         /********************************/
+        acceleration = CAR_ACCELERATION;
 
         angle += rotationSpeed;
 
         float totalSpeed = std::min(std::max(sqrt(xSpeed * xSpeed + ySpeed * ySpeed) + acceleration, 0.)
                                     , MAX_CAR_TOTAL_SPEED);
+        totalSpeed += 1. / (rand() % 2 + 1);
         xSpeed = totalSpeed * cos(toRadians(angle));
         ySpeed = totalSpeed * sin(toRadians(angle));
         rotationSpeed = 0;
+        distanceCountPerLife++;
 
         float lDist = leftSensor->distance();
         float rDist = rightSensor->distance();
@@ -139,7 +148,8 @@ void Car::advance(int phase)
         }
 
         if(lDist <= eps || rDist <= eps){
-            map->wallCollision();
+            isCarCrushed = true;
+            map->wallCollision(this);
         }
     }
 }

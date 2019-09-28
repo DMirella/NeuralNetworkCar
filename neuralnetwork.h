@@ -1,9 +1,8 @@
-#ifndef NEURALNETWORK_H
-#define NEURALNETWORK_H
+#pragma once
 
 #include "neuronlayer.h"
 
-enum Action{Accelerate = 0, Brake, TurnLeft, TurnRight};
+enum Action{TurnLeft = 0, TurnRight, Accelerate, Brake};
 
 class NeuralNetwork
 {
@@ -11,10 +10,10 @@ public:
     NeuralNetwork(){}
     NeuralNetwork(int countHiddenLayers, int countInput, int countOutput, int countHidden);
     Action think(double leftDist, double rightDist, double accelerate);
+
+    NeuralNetwork merge(const NeuralNetwork& other);
 private:
     int countHiddenLayers, countInput, countOutput, countHidden;
     QVector<NeuronLayer> hidden;
     NeuronLayer output;
 };
-
-#endif // NEURALNETWORK_H
